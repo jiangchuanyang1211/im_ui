@@ -1,0 +1,36 @@
+variables:
+  DEPLOY_HOST: 172.16.10.121
+  DEPLOY_USER: root
+  DEPLOY_PATH: /home/tsenf/web/
+   # DEPLOY_PATH: /home/tsenf/dist/
+image: node:12
+stages:
+  - build
+  - deploy
+cache:
+  paths:
+    - node_modules/
+    - dist/
+before_script:
+  - npm install
+build:
+  stage: build
+  tags:
+    - imi-runner
+  script:
+    - npm run build:prod
+  artifacts:
+    paths:
+      - ./dist
+    expire_in: 1 week
+  only:
+    - master
+deploy:
+  stage: deploy
+  tags:
+    - imi-runner
+  script:
+    - sudo yum update && sudo yum install -y sshpass
+    - sudo sshpass -p $SSH_PASSWORD rm -rf ${DEPLOY_PATH} && sudo sshpass -p $SSH_PASSWORD scp -r ./dist/* ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}
+  only:
+    - master

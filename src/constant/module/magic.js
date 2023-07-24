@@ -1,0 +1,6 @@
+export const FREEZE_SUCCESS = '冻结成功'
+export const UNFREEZE_SUCCESS = '解冻成功'
+export const UNBLOCK_SUCCESS = '解冻成功'
+export const RESET_SUCCESS = '重置魔盒验证码成功'
+export const ENABLE_SUCCESS = '启用成功'
+export const DISENABLE_SUCCESS = '禁用成功'
